@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Character encoding for proper text display -->
+  <meta charset="UTF-8" />
+  
+  <!-- Responsive design - makes the page work on mobile devices -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  
+  <!-- Page title that appears in browser tab -->
+  <title>Aura AI</title>
+  
+  <!-- Link to external CSS file for styling -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- Background with animated gradient orbs for visual effect -->
+<div class="background">
+  <!-- Three colored orbs that create a beautiful background gradient -->
+  <div class="gradient-orb orb-1"></div>
+  <div class="gradient-orb orb-2"></div>
+  <div class="gradient-orb orb-3"></div>
+</div>
+
+<!-- Main container holding all the chat interface -->
+<div class="container">
+  
+  <!-- Header section with title and settings button -->
+  <div class="header">
+    <!-- Main title of the application -->
+    <h1>Aura</h1>
+    <!-- Subtitle describing the app -->
+    <p class="subtitle">Your AI Companion</p>
+
+    <!-- Wake word detection indicator (shows when listening for "Hey Aura") -->
+    <div id="wakeWordIndicator" class="wake-word-indicator">
+      <!-- Animated pulsing dot -->
+      <span class="pulse-dot"></span>
+      <!-- Text showing what it's listening for -->
+      <span class="wake-text">Listening for "Hey Aura"</span>
+    </div>
+
+    <!-- Settings button (gear icon) - opens settings modal when clicked -->
+    <button id="settingsBtn" class="settings-btn">
+      ⚙️
+    </button>
+  </div>
+
+  <!-- Chat messages container - displays conversation history -->
+  <div class="chat-container">
+    <!-- This div will be filled with messages dynamically via JavaScript -->
+    <div id="chatMessages" class="chat-messages"></div>
+  </div>
+
+  <!-- Input section at the bottom for user interaction -->
+  <div class="input-section">
+    <!-- Microphone button for voice input -->
+    <button id="micBtn" class="mic-btn">🎤</button>
+    
+    <!-- Text input field where users can type messages -->
+    <input id="messageInput" placeholder="Ask Aura anything..." />
+    
+    <!-- Send button to submit the message -->
+    <button id="sendBtn">➤</button>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL - Popup window for configuring Aura -->
+<!-- Initially hidden, shown when settings button is clicked -->
+<div id="settingsModal" class="settings-modal">
+  <div class="settings-box">
+    <!-- Settings modal title -->
+    <h3>Settings</h3>
+
+    <!-- Personality Selection -->
+    <div class="setting-group">
+      <label>Personality</label>
+      <!-- Dropdown to select AI personality style -->
+      <select id="personalitySelect">
+        <option value="friendly">Friendly</option>
+        <option value="professional">Professional</option>
+        <option value="mentor">Mentor</option>
+        <option value="sarcastic">Sarcastic</option>
+      </select>
+    </div>
+
+    <!-- Response Style Selection -->
+    <div class="setting-group">
+      <label>Response Style</label>
+      <!-- Dropdown to control how detailed responses should be -->
+      <select id="responseStyleSelect">
+        <option value="concise">Concise - Brief, direct answers</option>
+        <option value="balanced">Balanced - Moderate detail</option>
+        <option value="detailed">Detailed - Comprehensive answers</option>
+      </select>
+    </div>
+
+    <!-- Real-time Data Provider Selection -->
+    <div class="setting-group">
+      <label>Real-time Data Provider</label>
+      <!-- Choose between DuckDuckGo or Google Gemini for web searches -->
+      <select id="searchProviderSelect">
+        <option value="duckduckgo">DuckDuckGo (Privacy-focused)</option>
+        <option value="gemini">Google Gemini (Advanced AI)</option>
+      </select>
+    </div>
+
+    <!-- Wake Word Detection Toggle -->
+    <div class="setting-group">
+      <label>Wake Word Detection</label>
+      <div class="toggle-container">
+        <!-- Checkbox styled as a toggle switch -->
+        <input type="checkbox" id="wakeWordToggle" checked>
+        <label for="wakeWordToggle" class="toggle-label">
+          <span class="toggle-switch"></span>
+          <span class="toggle-text">Enable "Hey Aura"</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Real-time Data Access Toggle -->
+    <div class="setting-group">
+      <label>Real-time Data Access</label>
+      <div class="toggle-container">
+        <!-- Enables/disables web search for current information -->
+        <input type="checkbox" id="webSearchToggle" checked>
+        <label for="webSearchToggle" class="toggle-label">
+          <span class="toggle-switch"></span>
+          <span class="toggle-text">Enable Web Search</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- System Control Toggle -->
+    <div class="setting-group">
+      <label>System Control</label>
+      <div class="toggle-container">
+        <!-- Enables/disables ability to open/close applications -->
+        <input type="checkbox" id="systemControlToggle" checked>
+        <label for="systemControlToggle" class="toggle-label">
+          <span class="toggle-switch"></span>
+          <span class="toggle-text">Open/Close Apps</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Voice Type Selection (Male or Female) -->
+    <div class="setting-group">
+      <label>Voice Type</label>
+      <div class="voice-type-container">
+        <!-- Radio button for Female voice -->
+        <label class="voice-radio">
+          <input type="radio" name="voiceType" value="female" checked>
+          <span class="radio-custom"></span>
+          <span class="radio-label">Female</span>
+        </label>
+        <!-- Radio button for Male voice -->
+        <label class="voice-radio">
+          <input type="radio" name="voiceType" value="male">
+          <span class="radio-custom"></span>
+          <span class="radio-label">Male</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Speech Rate Slider -->
+    <div class="setting-group">
+      <label>Speech Rate</label>
+      <!-- Slider to control how fast the AI speaks (0.5x to 2.0x speed) -->
+      <input type="range" id="rateSlider" min="0.5" max="2" step="0.1" value="1">
+      <!-- Display current speech rate value -->
+      <span id="rateValue">1.0x</span>
+    </div>
+
+    <!-- Pitch Slider -->
+    <div class="setting-group">
+      <label>Pitch</label>
+      <!-- Slider to control voice pitch (0.5 = lower, 2.0 = higher) -->
+      <input type="range" id="pitchSlider" min="0.5" max="2" step="0.1" value="1">
+      <!-- Display current pitch value -->
+      <span id="pitchValue">1.0</span>
+    </div>
+
+    <!-- Test Voice Button -->
+    <!-- Click to hear how the voice will sound with current settings -->
+    <button id="testVoiceBtn" class="test-btn">Test Voice</button>
+    
+    <!-- Close Settings Button -->
+    <button id="closeSettings">Close</button>
+  </div>
+</div>
+
+<!-- Link to external JavaScript file that makes everything work -->
+<script src="script.js"></script>
+</body>
+</html>
